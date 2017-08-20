@@ -1,11 +1,7 @@
-def rotate(text, offset):
-  res = ''
-  for t in text:
-    if ord('a') <= ord(t) <= ord('z'):
-      res += chr(ord('a') + (ord(t) + offset - ord('a')) % 26)
-    elif ord('A') <= ord(t) <= ord('Z'):
-      res += chr(ord('A') + (ord(t) + offset - ord('A')) % 26)
-    else:
-      res += t
+from string import ascii_lowercase, ascii_uppercase
 
-  return res
+def rotate(text, offset):
+  new_lowercase = ascii_lowercase[offset:] + ascii_lowercase[:offset]
+  new_uppercase = ascii_uppercase[offset:] + ascii_uppercase[:offset]
+  translation = str.maketrans(ascii_lowercase + ascii_uppercase, new_lowercase + new_uppercase)
+  return text.translate(translation)
