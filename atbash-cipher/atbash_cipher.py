@@ -1,19 +1,10 @@
-def translate(char):
-  if char.isalpha():
-    return chr(ord('z') - (ord(char) - ord('a')))
-  elif char.isdigit():
-    return char
-  else:
-    return ''
+from string import ascii_lowercase, punctuation, whitespace
+
+translation = str.maketrans(ascii_lowercase, ascii_lowercase[::-1], punctuation + whitespace)
 
 def encode(msg):
-  res = ''
-  for c in msg.lower():
-    if len(res) % 6 == 5:
-      res += ' '
-    res += translate(c)
-
-  return res.rstrip()
+  enc = msg.lower().translate(translation)
+  return ' '.join([enc[i:i+5] for i in range(0, len(enc), 5)])
 
 def decode(msg):
-  return ''.join([translate(c) for c in msg])
+  return msg.translate(translation)
