@@ -38,5 +38,5 @@ def say(num):
     return translation[num // 10 * 10] + (('-' + translation[num % 10]) if num % 10 else '')
   for limit, word in [(1e3, ' hundred'), (1e6, ' thousand'), (1e9, ' million'), (1e12, ' billion')]:
     if num < limit:
-      denom = limit / 1e3 if limit > 1e3 else 100
-      return say(num // denom) + word + ((' and ' if num % denom < 100 else ' ') + say(num % denom) if num % denom else '')
+      div, mod = divmod(num, limit / 1e3 if limit > 1e3 else 100)
+      return say(div) + word + ((' and ' if mod < 100 else ' ') + say(mod) if mod else '')
