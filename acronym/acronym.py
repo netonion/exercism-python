@@ -1,3 +1,2 @@
-import re
 def abbreviate(phrase):
-  return ''.join(re.findall(r'\b\w', phrase)).upper()
+  return ''.join(c for c in phrase.title() if c.isupper())
