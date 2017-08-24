@@ -1,9 +1,8 @@
 def flatten(arr):
-  if not arr:
-    return []
-  if isinstance(arr[0], list):
-    return flatten(arr[0]) + flatten(arr[1:])
-  elif arr[0] or arr[0] == 0:
-    return [arr[0]] + flatten(arr[1:])
-  else:
-    return flatten(arr[1:])
+  res = []
+  for x in arr:
+    if isinstance(x, list) or isinstance(x, tuple):
+      res.extend(flatten(x))
+    elif x is not None:
+      res.append(x)
+  return res
