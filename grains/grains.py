@@ -5,4 +5,4 @@ def on_square(n):
 
 def total_after(n):
   if n < 1 or n > 64: raise ValueError
-  return sum(on_square(i + 1) for i in range(n))
+  return 2 ** n - 1
