@@ -1,35 +1,29 @@
+from collections import deque
+
 class BufferFullException(Exception):
     pass
-
 
 class BufferEmptyException(Exception):
     pass
 
-
 class CircularBuffer(object):
     def __init__(self, capacity):
         self.capacity = capacity
-        self.buffer = [None] * capacity
-        self.head = 0
-        self.tail = 0
+        self.buffer = deque([])
 
     def read(self):
-        if self.head >= self.tail: raise BufferEmptyException
-        val = self.buffer[self.head % self.capacity]
-        self.head += 1
-        return val
+        if not len(self.buffer): raise BufferEmptyException
+        return self.buffer.popleft()
 
     def write(self, data):
-        if self.tail >= self.head + self.capacity:
+        if len(self.buffer) >= self.capacity:
             raise BufferFullException
-        self.buffer[self.tail % self.capacity] = data
-        self.tail += 1
+        self.buffer.append(data)
 
     def clear(self):
-        self.head = 0
-        self.tail = 0
+        self.buffer.clear()
 
     def overwrite(self, data):
-        self.buffer[self.tail % self.capacity] = data
-        while self.tail >= self.head + self.capacity: self.head += 1
-        self.tail += 1
+        while len(self.buffer) >= self.capacity:
+            self.buffer.popleft()
+        self.buffer.append(data)
