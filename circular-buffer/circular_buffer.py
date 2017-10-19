@@ -1,5 +1,3 @@
-from collections import deque
-
 class BufferFullException(Exception):
     pass
 
@@ -9,11 +7,11 @@ class BufferEmptyException(Exception):
 class CircularBuffer(object):
     def __init__(self, capacity):
         self.capacity = capacity
-        self.buffer = deque([])
+        self.buffer = []
 
     def read(self):
-        if not len(self.buffer): raise BufferEmptyException
-        return self.buffer.popleft()
+        if not self.buffer: raise BufferEmptyException
+        return self.buffer.pop(0)
 
     def write(self, data):
         if len(self.buffer) >= self.capacity:
@@ -25,5 +23,5 @@ class CircularBuffer(object):
 
     def overwrite(self, data):
         while len(self.buffer) >= self.capacity:
-            self.buffer.popleft()
-        self.buffer.append(data)
+            self.read()
+        self.write(data)
